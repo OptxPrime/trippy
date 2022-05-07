@@ -11,3 +11,10 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+ /*noinspection CssInvalidAtRule*/
+@tailwind base;
+/* noinspection CssInvalidAtRule*/
+@tailwind components;
+/* noinspection CssInvalidAtRule*/
+@tailwind utilities;

@@ -6,11 +6,13 @@ import {RegisterTraveler} from "./pages/register/traveler";
 import {Login} from "./pages/login/login";
 import {LoginAgency} from "./pages/login/agency";
 import {LoginTraveler} from "./pages/login/traveler";
+import DarkMode from "./components/DarkMode/DarkMode";
 
 function App() {
   return (
-    <div className="App">
+    <div className="App bg-gray-200 text-black dark:text-white dark:bg-slate-800">
       <header className="App-header">
+        <DarkMode/>
         <BrowserRouter>
             <Routes>
                 <Route path="register" element={<Register />}/>
