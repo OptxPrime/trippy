@@ -6,14 +6,14 @@ export const LoginTraveler = () => {
 
     return (
     <>
-        <form className="w3-container w3-indigo">
+        <form className="w3-container w3-indigo" action={`${process.env.REACT_APP_API_URL}/login/traveler`} method="POST">
             <label className="w3-text-white"><b>Email</b></label>
-            <input className="w3-input w3-border w3-light-grey" type="email"/>
+            <input className="w3-input w3-border w3-light-grey" name="email" type="email" required/>
 
             <label className="w3-text-white"><b>Password</b></label>
-            <input className="w3-input w3-border w3-light-grey" type="password"/>
+            <input className="w3-input w3-border w3-light-grey" name="password" type="password" required/>
 
-            <button className="w3-btn w3-round-large w3-margin w3-black">Login</button>
+            <button type="submit" className="w3-btn w3-round-large w3-margin w3-black">Login</button>
         </form>
 
         <button
