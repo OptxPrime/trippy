@@ -2,6 +2,7 @@ import {useNavigate} from "react-router-dom";
 import {useState} from "react";
 
 import {Trip} from "../../components/Trip/Trip";
+import {Navbar} from "../../components/Navbar/Navbar";
 
 const mockTrips = [
         {
@@ -28,12 +29,11 @@ const mockTrips = [
     ]
 
 export const MyTrips = () => {
-
-    const navigate = useNavigate()
     const [trips,setTrips] = useState(mockTrips);
 
     return (
     <>
+        <Navbar/>
         {
             trips.map((trip)=>{
                 return <Trip trip={trip}/>
