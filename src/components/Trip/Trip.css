@@ -1,0 +1,17 @@
+.trip-card{
+    display: flex;
+    flex-direction: column;
+    margin: 1em;
+    min-width: 400px;
+}
+
+.trip-date, .trip-transport{
+    margin: 1em;
+    padding: 0.2em;
+}
+
+.transport-item{
+    margin-left: 4px;
+    margin-right: 4px;
+}
+
