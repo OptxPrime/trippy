@@ -9,6 +9,7 @@ import {LoginTraveler} from "./pages/login/traveler";
 import DarkMode from "./components/DarkMode/DarkMode";
 import {MyTrips} from "./pages/my-trips/my-trips";
 import {Home} from "./pages/home/home";
+import {AboutUs} from "./pages/about-us/about-us";
 
 function App() {
   return (
@@ -28,6 +29,8 @@ function App() {
                 <Route path="my-trips" element={<MyTrips />}/>
 
                 <Route path="home" element={<Home />}/>
+
+                <Route path="about-us" element={<AboutUs />}/>
 
                 <Route path="*" element={<Navigate to="/register" replace={true} />}/>
             </Routes>

@@ -5,10 +5,9 @@ import 'react-dropdown/style.css';
 
 import {useMap} from "react-leaflet";
 
-
 export const MapDropdown = ({options, trips}) => {
 
-    const map = useMap();
+    const map = useMap(); // important: https://stackoverflow.com/questions/65171337/how-to-get-map-properties-and-handle-events-in-leaflet-v3-with-react-redux
 
     const handleChange = (e) => {
     trips.map(({id,city})=>{
