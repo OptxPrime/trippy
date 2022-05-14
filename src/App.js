@@ -10,15 +10,20 @@ import DarkMode from "./components/DarkMode/DarkMode";
 import {MyTrips} from "./pages/my-trips/my-trips";
 import {Home} from "./pages/home/home";
 import {AboutUs} from "./pages/about-us/about-us";
+import useToken from "./hooks/useToken";
+import {RequireAuth} from "./util/requireAuth";
 
 function App() {
+
+  const {token, setToken} = useToken();
+
   return (
     <div className="App bg-sky-100 text-black dark:text-white dark:bg-slate-800">
       <header className="App-header">
         <DarkMode/>
         <BrowserRouter>
             <Routes>
-                <Route path="register" element={<Register />}/>
+                <Route path="register" element={<Register/>}/>
                 <Route path="register/agency" element={<RegisterAgency />}/>
                 <Route path="register/traveler" element={<RegisterTraveler />}/>
 
@@ -26,11 +31,32 @@ function App() {
                 <Route path="login/agency" element={<LoginAgency />}/>
                 <Route path="login/traveler" element={<LoginTraveler />}/>
 
-                <Route path="my-trips" element={<MyTrips />}/>
+                <Route
+                    path="my-trips"
+                    element={
+                    <RequireAuth>
+                       <MyTrips />
+                    </RequireAuth>
+                    }
+                />
 
-                <Route path="home" element={<Home />}/>
+                <Route
+                    path="home"
+                    element={
+                    <RequireAuth>
+                       <Home />
+                    </RequireAuth>
+                    }
+                />
 
-                <Route path="about-us" element={<AboutUs />}/>
+                <Route
+                    path="about-us"
+                    element={
+                    <RequireAuth>
+                       <AboutUs />
+                    </RequireAuth>
+                    }
+                />
 
                 <Route path="*" element={<Navigate to="/register" replace={true} />}/>
             </Routes>
