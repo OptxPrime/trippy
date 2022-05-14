@@ -12,6 +12,7 @@ code {
     monospace;
 }
 
+ /* important: https://stackoverflow.com/questions/68728360/tailwind-css-doesnt-apply-custom-background-color */
  /*noinspection CssInvalidAtRule*/
 @tailwind base;
 /* noinspection CssInvalidAtRule*/
