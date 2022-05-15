@@ -45,7 +45,6 @@ export const AboutUs = () => {
                 className="w3-table w3-border w3-table-responsive"
             >
                 <tbody>
-                    {/*m-2 bg-sky-300 dark:bg-sky-700 rounded-lg px-3 py-2 font-medium hover:bg-sky-700 dark:hover:bg-sky-300 hover:text-white dark:hover:text-black*/}
                     <tr className="bg-sky-200 dark:bg-sky-600 hover:bg-sky-700 dark:hover:bg-sky-300 hover:text-white dark:text-white dark:hover:text-black">
                         <th className="bg-sky-300 dark:bg-sky-700">Name</th>
                         <td>Dynamic Web Systems</td>

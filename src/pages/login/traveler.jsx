@@ -6,7 +6,7 @@ import useToken from "../../hooks/useToken";
 // Formik: https://formik.org/docs/overview
 import {ErrorMessage, Field, Form, Formik} from "formik";
 
-import './traveler.css'
+import './login.css'
 
 export const LoginTraveler = () => {
 
@@ -26,9 +26,8 @@ export const LoginTraveler = () => {
            !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
          ) {
            errors.email = 'Invalid email address';
-         } else if(
-             !values.password
-         ) {
+         }
+         if(!values.password) {
              errors.password = 'Required'
          }
          return errors;
@@ -40,7 +39,7 @@ export const LoginTraveler = () => {
                 password
             })
             .then((response) => {
-                setToken(email);
+                setToken('traveler',response.data); //response.data is user id in this case
                 navigate('/home');
             })
             .catch((error) =>{
