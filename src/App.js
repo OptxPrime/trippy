@@ -12,6 +12,7 @@ import {Home} from "./pages/home/home";
 import {AboutUs} from "./pages/about-us/about-us";
 import useToken from "./hooks/useToken";
 import {RequireAuth} from "./util/requireAuth";
+import {ResetPassword} from "./pages/reset-password/reset-password";
 
 function App() {
 
@@ -24,19 +25,21 @@ function App() {
         <BrowserRouter>
             <Routes>
                 <Route path="register" element={<Register/>}/>
-                <Route path="register/agency" element={<RegisterAgency />}/>
-                <Route path="register/traveler" element={<RegisterTraveler />}/>
+                <Route path="register/agency" element={<RegisterAgency/>}/>
+                <Route path="register/traveler" element={<RegisterTraveler/>}/>
 
-                <Route path="login" element={<Login />}/>
-                <Route path="login/agency" element={<LoginAgency />}/>
-                <Route path="login/traveler" element={<LoginTraveler />}/>
+                <Route path="login" element={<Login/>}/>
+                <Route path="login/agency" element={<LoginAgency/>}/>
+                <Route path="login/traveler" element={<LoginTraveler/>}/>
+
+                <Route path="reset-password" element={<ResetPassword/>}/>
 
                 <Route
                     path="my-trips"
                     element={
-                    <RequireAuth>
-                       <MyTrips />
-                    </RequireAuth>
+                        <RequireAuth>
+                            <MyTrips/>
+                        </RequireAuth>
                     }
                 />
 

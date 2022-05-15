@@ -48,7 +48,7 @@ export const RegisterTraveler = () => {
                             navigate('/login');
                         })
                         .catch((error) => {
-                            setError(error)
+                            setError(error.response.data)
                         })
                         .finally(() => {
                             setSubmitting(false);
@@ -86,7 +86,7 @@ export const RegisterTraveler = () => {
                 )}
             </Formik>
 
-            {error ? <p className="text-red-700 m-1"> Error </p> : null}
+            {error ? <p className="text-red-700 m-1"> {error} </p> : null}
             <button
                 className="w3-btn w3-round-large w3-margin bg-sky-200 dark:bg-sky-600"
                 onClick={() => navigate(-1)}

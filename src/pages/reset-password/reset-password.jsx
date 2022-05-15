@@ -3,21 +3,19 @@ import {useState} from "react";
 import axios from "axios";
 import useToken from "../../hooks/useToken";
 
-// Formik: https://formik.org/docs/overview
 import {ErrorMessage, Field, Form, Formik} from "formik";
 
-import './login.css'
+import './reset-password.css'
 
-export const LoginAgency = () => {
+export const ResetPassword = () => {
 
     const navigate = useNavigate()
-    const {setToken} = useToken();
     const [error, setError] = useState("");
 
     return (
         <>
             <Formik
-                initialValues={{email: '', password: ''}}
+                initialValues={{email: '', old_password: '', new_password: ''}}
                 validate={values => {
                     const errors = {};
                     if (!values.email) {
@@ -27,23 +25,20 @@ export const LoginAgency = () => {
                     ) {
                         errors.email = 'Invalid email address';
                     }
-                    if (!values.password) {
-                        errors.password = 'Required'
-                    }
                     return errors;
                 }}
-                onSubmit={({email, password}, {setSubmitting}) => {
-                    axios.post(`${process.env.REACT_APP_API_URL}/login/agency`,
+
+                onSubmit={({email, old_password, new_password}, {setSubmitting}) => {
+                    axios.post(`${process.env.REACT_APP_API_URL}/reset-password`,
                         {
                             email,
-                            password
                         })
                         .then((response) => {
-                            setToken('agency', response.data); //response.data is user id in this case
-                            navigate('/home');
+                            navigate('/login');
                         })
                         .catch((error) => {
-                            setError(error)
+                            // console.log(error);
+                            setError(error.response.data)
                         })
                         .finally(() => {
                             setSubmitting(false);
@@ -53,26 +48,17 @@ export const LoginAgency = () => {
                 {({isSubmitting}) => (
                     <Form className="form-container w3-container bg-sky-200 dark:bg-sky-600">
                         <label className="text-black dark:text-white"><b>Email</b></label>
-                        <Field className="text-black" type="email" name="email"/>
+                        <Field className="p-2 text-black" type="email" name="email"/>
                         <ErrorMessage className="text-red-700" name="email" component="div"/>
-
-                        <label className="text-black dark:text-white"><b>Password</b></label>
-                        <Field className="text-black" type="password" name="password"/>
-                        <ErrorMessage className="text-red-700" name="password" component="div"/>
 
                         <button type="submit" className="w3-btn w3-round-large w3-margin w3-black"
                                 disabled={isSubmitting}>
-                            Login
+                            Reset
                         </button>
                     </Form>
                 )}
             </Formik>
-        {error ? <p className="text-red-700 m-1"> Email and password combo incorrect </p> : null}
-
-            <NavLink to={'/reset-password'}
-                     className="m-2 bg-sky-200 dark:bg-sky-600 rounded-lg px-3 py-2 font-medium hover:bg-sky-700 dark:hover:bg-sky-300 hover:text-white dark:hover:text-black">
-                Reset password
-            </NavLink>
+            {error ? <p className="text-red-700 m-1"> {error} </p> : null}
 
             <button
                 className="m-2 bg-sky-200 dark:bg-sky-600 rounded-lg px-3 py-2 font-medium hover:bg-sky-700 dark:hover:bg-sky-300 hover:text-white dark:hover:text-black"
