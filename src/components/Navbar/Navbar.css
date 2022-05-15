@@ -1,0 +1,9 @@
+.navbar-section {
+    margin-left: 1em;
+    margin-right: 1em;
+    align-self: center;
+}
+
+a {
+    cursor: pointer;
+}
