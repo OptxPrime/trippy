@@ -5,19 +5,23 @@ import { useState } from 'react';
 export default function useToken() {
   const getToken = () => {
     const tokenString = localStorage.getItem('putovanja-token');
-    const userToken = JSON.parse(tokenString);
-    return userToken?.token
+    return tokenString;
   };
 
   const [token, setToken] = useState(getToken());
 
-  const saveToken = (userType,userToken) => {
+  const saveToken = (userType, userToken) => {
     localStorage.setItem('putovanja-token', JSON.stringify(`${userType}#${userToken}`));
     setToken(userToken.token);
   };
 
+  const getUserType = () => {
+    return JSON.parse(getToken()).split('#')[0];
+  }
+
   return {
     setToken: saveToken,
-    token
+    token,
+    getUserType
   }
 }

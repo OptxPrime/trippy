@@ -13,26 +13,28 @@ import {AboutUs} from "./pages/about-us/about-us";
 import useToken from "./hooks/useToken";
 import {RequireAuth} from "./util/requireAuth";
 import {ResetPassword} from "./pages/reset-password/reset-password";
+import {Profile} from "./pages/profile/profile";
+import {AgencyProfile} from "./pages/profile/agency-profile";
 
 function App() {
 
-  const {token, setToken} = useToken();
+    const {token, setToken} = useToken();
 
-  return (
-    <div className="App bg-sky-100 text-black dark:text-white dark:bg-slate-800">
-      <header className="App-header">
-        <DarkMode/>
-        <BrowserRouter>
-            <Routes>
-                <Route path="register" element={<Register/>}/>
-                <Route path="register/agency" element={<RegisterAgency/>}/>
-                <Route path="register/traveler" element={<RegisterTraveler/>}/>
+    return (
+        <div className="App bg-sky-100 text-black dark:text-white dark:bg-slate-800">
+            <header className="App-header">
+                <DarkMode/>
+                <BrowserRouter>
+                    <Routes>
+                        <Route path="register" element={<Register/>}/>
+                        <Route path="register/agency" element={<RegisterAgency/>}/>
+                        <Route path="register/traveler" element={<RegisterTraveler/>}/>
 
-                <Route path="login" element={<Login/>}/>
-                <Route path="login/agency" element={<LoginAgency/>}/>
-                <Route path="login/traveler" element={<LoginTraveler/>}/>
+                        <Route path="login" element={<Login/>}/>
+                        <Route path="login/agency" element={<LoginAgency/>}/>
+                        <Route path="login/traveler" element={<LoginTraveler/>}/>
 
-                <Route path="reset-password" element={<ResetPassword/>}/>
+                        <Route path="reset-password" element={<ResetPassword/>}/>
 
                 <Route
                     path="my-trips"
@@ -52,17 +54,26 @@ function App() {
                     }
                 />
 
-                <Route
-                    path="about-us"
-                    element={
-                    <RequireAuth>
-                       <AboutUs />
-                    </RequireAuth>
-                    }
-                />
+                        <Route
+                            path="about-us"
+                            element={
+                                <RequireAuth>
+                                    <AboutUs/>
+                                </RequireAuth>
+                            }
+                        />
 
-                <Route path="*" element={<Navigate to="/register" replace={true} />}/>
-            </Routes>
+                        <Route
+                            path="profile"
+                            element={
+                                <RequireAuth>
+                                    <Profile/>
+                                </RequireAuth>
+                            }
+                        />
+
+                        <Route path="*" element={<Navigate to="/register" replace={true}/>}/>
+                    </Routes>
         </BrowserRouter>
       </header>
     </div>

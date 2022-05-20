@@ -26,6 +26,7 @@ export const Navbar = () => {
             </div>
             <div className="navbar-section">
                 {[
+                    ['Profile', '/profile'],
                     ['Sign up', '/register'],
                     ['Log in', '/login'],
                 ].map(([title, url]) => (
