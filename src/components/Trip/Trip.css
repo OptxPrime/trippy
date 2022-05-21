@@ -5,13 +5,31 @@
     min-width: 400px;
 }
 
-.trip-date, .trip-transport{
+.trip-date, .trip-transport {
     margin: 1em;
     padding: 0.2em;
 }
 
-.transport-item{
+.transport-item {
     margin-left: 4px;
     margin-right: 4px;
+}
+
+.trip-card-container {
+    position: relative;
+}
+
+.trip-type {
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 4px;
+}
+
+.trip-status {
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: 4px;
 }
 

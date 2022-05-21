@@ -18,6 +18,7 @@ export const Navbar = () => {
                 {[
                     ['Home', '/home'],
                     ['My trips', '/my-trips'],
+                    ['Future trips', '/future-trips'],
                     ['About us', '/about-us']
                 ].map(([title, url]) => (
                     <NavLink to={url}
@@ -27,8 +28,6 @@ export const Navbar = () => {
             <div className="navbar-section">
                 {[
                     ['Profile', '/profile'],
-                    ['Sign up', '/register'],
-                    ['Log in', '/login'],
                 ].map(([title, url]) => (
                     <NavLink to={url}
                              className="m-2 bg-sky-300 dark:bg-sky-700 rounded-lg px-3 py-2 font-medium hover:bg-sky-700 dark:hover:bg-sky-300 hover:text-white dark:hover:text-black">{title}</NavLink>

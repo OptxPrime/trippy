@@ -13,6 +13,7 @@ import {AboutUs} from "./pages/about-us/about-us";
 import {RequireAuth} from "./util/requireAuth";
 import {ResetPassword} from "./pages/reset-password/reset-password";
 import {Profile} from "./pages/profile/profile";
+import {FutureTrips} from "./pages/future-trips/future-trips";
 
 function App() {
 
@@ -32,23 +33,32 @@ function App() {
 
                         <Route path="reset-password" element={<ResetPassword/>}/>
 
-                <Route
-                    path="my-trips"
-                    element={
-                        <RequireAuth>
-                            <MyTrips/>
-                        </RequireAuth>
-                    }
-                />
+                        <Route
+                            path="my-trips"
+                            element={
+                                <RequireAuth>
+                                    <MyTrips/>
+                                </RequireAuth>
+                            }
+                        />
 
-                <Route
-                    path="home"
-                    element={
-                    <RequireAuth>
-                       <Home />
-                    </RequireAuth>
-                    }
-                />
+                        <Route
+                            path="future-trips"
+                            element={
+                                <RequireAuth>
+                                    <FutureTrips/>
+                                </RequireAuth>
+                            }
+                        />
+
+                        <Route
+                            path="home"
+                            element={
+                                <RequireAuth>
+                                    <Home/>
+                                </RequireAuth>
+                            }
+                        />
 
                         <Route
                             path="about-us"

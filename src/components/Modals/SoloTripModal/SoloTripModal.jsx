@@ -175,7 +175,11 @@ export const SoloTripModal = () => {
 
     return (
         <>
-            <button onClick={openModal}> Open modal</button>
+            <button
+                className="w3-btn w3-round-large w3-margin bg-gray-500 text-white"
+                onClick={openModal}
+            > Request Solo Trip
+            </button>
             <div className="w3-modal modal-container"
                  style={{display: isOpen ? 'block' : 'none', zIndex: 2000}}>
                 <div className="w3-modal-content w3-card-4">
