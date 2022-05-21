@@ -4,6 +4,7 @@ import {Trip} from "../../components/Trip/Trip";
 import {Navbar} from "../../components/Navbar/Navbar";
 import {SoloTripModal} from "../../components/Modals/SoloTripModal/SoloTripModal";
 import useToken from "../../hooks/useToken";
+import {GroupTourModal} from "../../components/Modals/GruopTourModal/GroupTourModal";
 
 const mockTrips = [
     {
@@ -50,7 +51,7 @@ export const FutureTrips = () => {
         <>
             <Navbar/>
             {
-                getUserType() === 'traveler' ? <SoloTripModal/> : null
+                getUserType() === 'traveler' ? <SoloTripModal/> : <GroupTourModal/>
             }
 
             {
