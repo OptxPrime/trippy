@@ -10,15 +10,11 @@ import DarkMode from "./components/DarkMode/DarkMode";
 import {MyTrips} from "./pages/my-trips/my-trips";
 import {Home} from "./pages/home/home";
 import {AboutUs} from "./pages/about-us/about-us";
-import useToken from "./hooks/useToken";
 import {RequireAuth} from "./util/requireAuth";
 import {ResetPassword} from "./pages/reset-password/reset-password";
 import {Profile} from "./pages/profile/profile";
-import {AgencyProfile} from "./pages/profile/agency-profile";
 
 function App() {
-
-    const {token, setToken} = useToken();
 
     return (
         <div className="App bg-sky-100 text-black dark:text-white dark:bg-slate-800">
