@@ -39,12 +39,6 @@ export const TravelerProfile = () => {
     return (
         loading ? <div>Loading...</div> :
             <>
-                <button
-                    className="w3-btn w3-round-large w3-margin bg-sky-200 dark:bg-sky-600"
-                    onClick={() => navigate('/home')}
-                >
-                    Home
-                </button>
                 <Formik
                     initialValues={
                         traveler
@@ -78,7 +72,8 @@ export const TravelerProfile = () => {
                 >
                     {({isSubmitting}) => {
                         return (
-                            <Form className="form-container w3-container bg-sky-200 dark:bg-sky-600">
+                            <Form className="form-container w3-container bg-sky-200 dark:bg-sky-600"
+                                  style={{margin: '2em'}}>
                                 <label className="text-black dark:text-white"><b>First name</b></label>
                                 <Field className="text-black" type="text" name="first_name"/>
 

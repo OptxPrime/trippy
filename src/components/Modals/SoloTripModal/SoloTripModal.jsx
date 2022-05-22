@@ -11,8 +11,8 @@ import useToken from "../../../hooks/useToken";
 const ModalForm = ({closeModal}) => {
 
     const agencies = [
-        {value: 0, label: 'bis tours'},
-        {value: 1, label: 'gras'}
+        {value: 2, label: 'bis tours'},
+        {value: 3, label: 'gras'}
     ]
 
     const {token} = useToken();
@@ -41,7 +41,7 @@ const ModalForm = ({closeModal}) => {
                 {
                     title: '',
                     description: '',
-                    agency: '',
+                    agency: agencies[0].value,
                     transport: [],
                     datetime: '',
                     location: '',

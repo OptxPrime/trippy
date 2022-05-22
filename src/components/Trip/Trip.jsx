@@ -3,11 +3,14 @@ import {useEffect, useState} from "react";
 
 export const Trip = ({trip}) => {
     let {
-        variant, status, title, description, date, transport
+        status, title, description
     } = trip
 
-    let capacity = trip.capacity ? trip.capacity : 1;
+    let date = new Date(trip.datetime);
+    let transport = trip.transport.split(',');
+    let capacity = trip.max_travelers ? trip.max_travelers : 1;
     let statusColor = status === 'accepted' ? 'bg-green-500' : status === 'rejected' ? 'bg-red-500' : status === 'canceled' ? 'bg-orange-500' : status === 'in review' ? 'bg-gray-500' : 'bg-gray-500';
+    let variant = trip.max_travelers ? 'group' : 'solo';
 
     let [checkedIn, setCheckedIn] = useState(trip.checkedIn);
     let [currentTravelers, setCurrentTravelers] = useState(trip.currentTravelers ? trip.currentTravelers : 1)

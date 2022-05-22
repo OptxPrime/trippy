@@ -1,44 +1,52 @@
-import {useNavigate} from "react-router-dom";
-import {useState} from "react";
+import {useState, useEffect} from "react";
+import axios from "axios";
 
 import {Trip} from "../../components/Trip/Trip";
 import {Navbar} from "../../components/Navbar/Navbar";
+import useToken from "../../hooks/useToken";
 
-const mockTrips = [
-        {
-            title:'Summer in Sarajevo 2021',
-            // image: '',
-            description: 'Visit Sarajevo in June 2021 and have the best experience in your life.',
-            date: new Date(2022,11,4),
-            transport: ['plane','bus'],
-        },
-        {
-            title:'Tomorrowland in Berlin 2022',
-            // image: '',
-            description: 'Enjoy in largest music festivale in Europe',
-            date: new Date(2021,5,4),
-            transport: ['plane'],
-        },
-        {
-            title:'Africa tour 2020',
-            // image: '',
-            description: 'Three-month tour in Africa',
-            date: new Date(2020,11,3),
-            transport: ['plane','bus','ship'],
-        }
-    ]
 
 export const MyTrips = () => {
-    const [trips,setTrips] = useState(mockTrips);
+
+    const [trips, setTrips] = useState([]);
+    const [error, setError] = useState('');
+    const {token} = useToken();
+
+    const fetchTrips = async () => {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/get-my-trips`,
+            {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            })
+        return response;
+    }
+
+    useEffect(() => {
+        fetchTrips()
+            .then((response) => {
+                let trips = JSON.parse(response.data);
+                let tripsFields = [];
+                for (let t of trips) {
+                    tripsFields.push(t.fields);
+                }
+                setTrips(tripsFields);
+            })
+            .catch((err) => {
+                console.log(err);
+                setError("Error fetching data!");
+            })
+    }, []);
 
     return (
-    <>
-        <Navbar/>
-        {
-            trips.map((trip)=>{
-                return <Trip trip={trip}/>
-            })
-        }
-    </>
+        <>
+            <Navbar/>
+            {error ? <p className="text-red-700 m-2"> {error} </p> :
+                trips && trips.length ?
+                    trips.map((trip) => {
+                        return <Trip trip={trip}/>
+                    }) : <h2> No past trips </h2>
+            }
+        </>
     );
 }
