@@ -8,7 +8,7 @@ import Dropdown from "react-dropdown";
 import useToken from "../../../hooks/useToken";
 
 
-const ModalForm = ({closeModal}) => {
+const ModalForm = ({closeModal, refreshData}) => {
 
     const agencies = [
         {value: 2, label: 'bis tours'},
@@ -77,6 +77,7 @@ const ModalForm = ({closeModal}) => {
                     .then((response) => {
                         closeModal();
                         resetForm();
+                        refreshData();
                         alert("Solo trip request sent to agency!");
                     })
                     .catch((error) => {
@@ -167,7 +168,7 @@ const ModalForm = ({closeModal}) => {
     );
 }
 
-export const SoloTripModal = () => {
+export const SoloTripModal = ({refreshData}) => {
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -191,7 +192,7 @@ export const SoloTripModal = () => {
                         <h2>Solo Trip</h2>
                     </header>
                     <div className="w3-container text-black font-small bg-sky-200 dark:bg-sky-600">
-                        <ModalForm closeModal={closeModal}/>
+                        <ModalForm closeModal={closeModal} refreshData={refreshData}/>
                     </div>
                 </div>
             </div>

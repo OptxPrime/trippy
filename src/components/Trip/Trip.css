@@ -33,3 +33,12 @@
     padding: 4px;
 }
 
+.accept-reject-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.accept-reject-button {
+    flex: 1;
+}

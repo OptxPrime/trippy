@@ -27,7 +27,7 @@ export const TravelerProfile = () => {
     useEffect(() => {
         fetchUserData(token)
             .then((response) => {
-                traveler = JSON.parse(response.data);
+                traveler = response.data[0];
                 setLoading(false)
             })
             .catch((err) => {

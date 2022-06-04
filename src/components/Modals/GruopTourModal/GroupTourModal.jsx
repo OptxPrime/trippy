@@ -6,7 +6,7 @@ import '../modals.css'
 import useToken from "../../../hooks/useToken";
 
 
-const ModalForm = ({closeModal}) => {
+const ModalForm = ({closeModal, refreshData}) => {
 
     const {token} = useToken();
     const [coordinatesError, setCoordinatesError] = useState('');
@@ -70,11 +70,12 @@ const ModalForm = ({closeModal}) => {
                 if (values.max_travelers < values.min_travelers) {
                     errors.max_travelers = 'Bounds not valid';
                 }
-                if (values.picture_url && !values.picture_url.match( // https://stackoverflow.com/questions/61634973/yup-validation-of-website-using-url-very-strict
-                    /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/
-                )) {
-                    errors.picture_url = 'Invalid url';
-                }
+                // TO DO: fix url validation (regex below has false negatives): https://stackoverflow.com/questions/5717093/check-if-a-javascript-string-is-a-url
+                // if (values.picture_url && !values.picture_url.match( // https://stackoverflow.com/questions/61634973/yup-validation-of-website-using-url-very-strict
+                //     /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/
+                // )) {
+                //     errors.picture_url = 'Invalid url';
+                // }
                 return errors;
             }}
             onSubmit={(values, {setSubmitting, resetForm}) => {
@@ -88,6 +89,7 @@ const ModalForm = ({closeModal}) => {
                     .then((response) => {
                         closeModal();
                         resetForm();
+                        refreshData();
                         alert("Created group tour");
                     })
                     .catch((error) => {
@@ -183,7 +185,7 @@ const ModalForm = ({closeModal}) => {
     );
 }
 
-export const GroupTourModal = () => {
+export const GroupTourModal = ({refreshData}) => {
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -207,7 +209,7 @@ export const GroupTourModal = () => {
                         <h2>Group Tour</h2>
                     </header>
                     <div className="w3-container text-black font-small bg-sky-200 dark:bg-sky-600">
-                        <ModalForm closeModal={closeModal}/>
+                        <ModalForm closeModal={closeModal} refreshData={refreshData}/>
                     </div>
                 </div>
             </div>

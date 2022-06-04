@@ -12,8 +12,13 @@ export const FutureTrips = () => {
 
     const [trips, setTrips] = useState([]);
     const [error, setError] = useState('');
+    const [toggleFetch, setToggleFetch] = useState(false);
+
     const {getUserType, token} = useToken();
 
+    const refreshData = () => {
+        setToggleFetch(prevState => !prevState);
+    }
 
     const fetchTrips = async () => {
         const response = await axios.get(`${process.env.REACT_APP_API_URL}/get-future-trips`,
@@ -25,13 +30,38 @@ export const FutureTrips = () => {
         return response;
     }
 
+    const fetchRegistrations = async () => {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/get-traveler-registrations`,
+            {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            })
+        return response;
+    }
+
     useEffect(() => {
+        let registeredTripIds = new Set();
+        fetchRegistrations()
+            .then((response) => {
+                let registrations = response.data;
+                for (let r of registrations) {
+                    registeredTripIds.add(r.tour_id)
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+                setError("Error fetching registrations!");
+            })
         fetchTrips()
             .then((response) => {
                 let trips = JSON.parse(response.data);
                 let tripsFields = [];
                 for (let t of trips) {
-                    tripsFields.push(t.fields);
+                    let o = {trip_id: t.pk, ...t.fields};
+                    if (o.max_travelers) // max_travelers is indicator of GroupTour
+                        o.is_registered = registeredTripIds.has(t.pk); // if current trip is among those for which user registered
+                    tripsFields.push(o);
                 }
                 setTrips(tripsFields);
             })
@@ -39,19 +69,21 @@ export const FutureTrips = () => {
                 console.log(err);
                 setError("Error fetching data!");
             })
-    }, []);
+    }, [toggleFetch]);
 
     return (
         <>
             <Navbar/>
             {
-                getUserType() === 'traveler' ? <SoloTripModal/> : <GroupTourModal/>
+                getUserType() === 'traveler' ?
+                    <SoloTripModal refreshData={refreshData}/>
+                    : <GroupTourModal refreshData={refreshData}/>
             }
 
             {error ? <p className="text-red-700 m-2"> {error} </p> :
                 trips && trips.length ?
                     trips.map((trip) => {
-                        return <Trip trip={trip}/>
+                        return <Trip trip={trip} refreshData={refreshData}/>
                     }) : <h2> No past trips </h2>
             }
         </>

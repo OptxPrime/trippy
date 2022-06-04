@@ -27,7 +27,7 @@ export const AgencyProfile = () => {
     useEffect(() => {
         fetchUserData(token)
             .then((response) => {
-                agency = JSON.parse(response.data);
+                agency = response.data[0];
                 agency.establishment_date = agency.establishment_date.substring(0, 10); // slice because of different format coming from Django server
                 setLoading(false)
             })
