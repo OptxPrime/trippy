@@ -44,7 +44,7 @@ export const MyTrips = () => {
             {error ? <p className="text-red-700 m-2"> {error} </p> :
                 trips && trips.length ?
                     trips.map((trip) => {
-                        return <Trip trip={trip}/>
+                        return <Trip key={`${trip.id}_${trip.datetime}`} trip={trip}/>
                     }) : <h2> No past trips </h2>
             }
         </>

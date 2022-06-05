@@ -1,22 +1,37 @@
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import {ErrorMessage, Field, Form, Formik} from "formik";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 import '../modals.css'
 import Dropdown from "react-dropdown";
 import useToken from "../../../hooks/useToken";
 
 
-const ModalForm = ({closeModal, refreshData}) => {
+const ModalForm = ({closeModal, refreshData, latlng}) => {
 
-    const agencies = [
-        {value: 2, label: 'bis tours'},
-        {value: 3, label: 'gras'}
-    ]
-
-    const {token} = useToken();
+    const [agencies, setAgencies] = useState([]);
     const [coordinatesError, setCoordinatesError] = useState('');
+    const {token} = useToken();
+
+    const fetchAgencies = async () => {
+        setCoordinatesError('');
+        await axios.get(`${process.env.REACT_APP_API_URL}/get-all-agencies`)
+            .then((response) => {
+                let agenciesList = [];
+                for (let a of response.data) {
+                    agenciesList.push({value: a.id, label: a.name});
+                }
+                setAgencies(agenciesList);
+            })
+            .catch((error) => {
+                console.log(error)
+            });
+    }
+
+    useEffect(() => {
+        fetchAgencies();
+    }, [])
 
     const fetchCoordinates = async (locationName, setFieldValue) => {
         setCoordinatesError('');
@@ -41,12 +56,12 @@ const ModalForm = ({closeModal, refreshData}) => {
                 {
                     title: '',
                     description: '',
-                    agency: agencies[0].value,
+                    agency: agencies.length ? agencies[0].value : '',
                     transport: [],
                     datetime: '',
                     location: '',
-                    lat: '',
-                    lng: '',
+                    lat: latlng ? latlng[0] : '',
+                    lng: latlng ? latlng[1] : '',
                     max_price: '',
                 }
             }
@@ -168,20 +183,27 @@ const ModalForm = ({closeModal, refreshData}) => {
     );
 }
 
-export const SoloTripModal = ({refreshData}) => {
+export const SoloTripModal = ({refreshData, page, ...props}) => {
 
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(page === 'home' ? true : false);
 
-    const openModal = () => setIsOpen(true);
-    const closeModal = () => setIsOpen(false);
+    const openModal = () => {
+        if (props.openModal) props.openModal();
+        else setIsOpen(true);
+    }
+
+    const closeModal = () => {
+        if (props.closeModal) props.closeModal();
+        else setIsOpen(false);
+    }
 
     return (
         <>
-            <button
+            {page !== 'home' ? <button
                 className="w3-btn w3-round-large w3-margin bg-gray-500 text-white"
                 onClick={openModal}
             > Request Solo Trip
-            </button>
+            </button> : null}
             <div className="w3-modal modal-container"
                  style={{display: isOpen ? 'block' : 'none', zIndex: 2000}}>
                 <div className="w3-modal-content w3-card-4">
@@ -192,7 +214,7 @@ export const SoloTripModal = ({refreshData}) => {
                         <h2>Solo Trip</h2>
                     </header>
                     <div className="w3-container text-black font-small bg-sky-200 dark:bg-sky-600">
-                        <ModalForm closeModal={closeModal} refreshData={refreshData}/>
+                        <ModalForm closeModal={closeModal} refreshData={refreshData} latlng={props.location}/>
                     </div>
                 </div>
             </div>

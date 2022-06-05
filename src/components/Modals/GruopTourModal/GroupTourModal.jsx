@@ -6,7 +6,7 @@ import '../modals.css'
 import useToken from "../../../hooks/useToken";
 
 
-const ModalForm = ({closeModal, refreshData}) => {
+const ModalForm = ({closeModal, refreshData, latlng}) => {
 
     const {token} = useToken();
     const [coordinatesError, setCoordinatesError] = useState('');
@@ -37,8 +37,8 @@ const ModalForm = ({closeModal, refreshData}) => {
                     transport: [],
                     datetime: '',
                     location: '',
-                    lat: '',
-                    lng: '',
+                    lat: latlng ? latlng[0] : '',
+                    lng: latlng ? latlng[1] : '',
                     min_travelers: 5,
                     max_travelers: 30,
                     picture_url: ''
@@ -185,20 +185,29 @@ const ModalForm = ({closeModal, refreshData}) => {
     );
 }
 
-export const GroupTourModal = ({refreshData}) => {
+export const GroupTourModal = ({refreshData, page, ...props}) => {
+    const [isOpen, setIsOpen] = useState(page === 'home' ? true : false);
 
-    const [isOpen, setIsOpen] = useState(false);
+    const openModal = () => {
+        if (props.openModal) props.openModal();
+        else setIsOpen(true);
+    }
 
-    const openModal = () => setIsOpen(true);
-    const closeModal = () => setIsOpen(false);
+    const closeModal = () => {
+        if (props.closeModal) props.closeModal();
+        else setIsOpen(false);
+    }
 
     return (
         <>
-            <button
-                className="w3-btn w3-round-large w3-margin bg-gray-500 text-white"
-                onClick={openModal}
-            > Add Group Tour
-            </button>
+            {
+                page !== 'home' ?
+                    <button
+                        className="w3-btn w3-round-large w3-margin bg-gray-500 text-white"
+                        onClick={openModal}
+                    > Add Group Tour
+                    </button> : null
+            }
             <div className="w3-modal modal-container"
                  style={{display: isOpen ? 'block' : 'none', zIndex: 2000}}>
                 <div className="w3-modal-content w3-card-4">
@@ -209,7 +218,7 @@ export const GroupTourModal = ({refreshData}) => {
                         <h2>Group Tour</h2>
                     </header>
                     <div className="w3-container text-black font-small bg-sky-200 dark:bg-sky-600">
-                        <ModalForm closeModal={closeModal} refreshData={refreshData}/>
+                        <ModalForm closeModal={closeModal} refreshData={refreshData} latlng={props.location}/>
                     </div>
                 </div>
             </div>

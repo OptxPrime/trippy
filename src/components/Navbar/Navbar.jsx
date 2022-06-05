@@ -21,7 +21,7 @@ export const Navbar = () => {
                     ['Future trips', '/future-trips'],
                     ['About us', '/about-us']
                 ].map(([title, url]) => (
-                    <NavLink to={url}
+                    <NavLink key={title} to={url}
                              className="m-2 bg-sky-300 dark:bg-sky-700 rounded-lg px-3 py-2 font-medium hover:bg-sky-700 dark:hover:bg-sky-300 hover:text-white dark:hover:text-black">{title}</NavLink>
                 ))}
             </div>
@@ -29,7 +29,7 @@ export const Navbar = () => {
                 {[
                     ['Profile', '/profile'],
                 ].map(([title, url]) => (
-                    <NavLink to={url}
+                    <NavLink key={title} to={url}
                              className="m-2 bg-sky-300 dark:bg-sky-700 rounded-lg px-3 py-2 font-medium hover:bg-sky-700 dark:hover:bg-sky-300 hover:text-white dark:hover:text-black">{title}</NavLink>
                 ))}
 

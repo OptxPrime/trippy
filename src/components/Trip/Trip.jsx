@@ -12,7 +12,7 @@ export const Trip = ({trip, refreshData}) => {
     let date = new Date(trip.datetime);
     let transport = trip.transport.split(',');
     let capacity = trip.max_travelers ? trip.max_travelers : 1;
-    let statusColor = status === 'accepted' ? 'bg-green-300 dark:bg-green-600' : status === 'rejected' ? 'bg-red-500' : status === 'canceled' ? 'bg-orange-500' : status === 'in review' ? 'bg-gray-500' : 'bg-gray-500';
+    let statusColor = status === 'accepted' ? 'bg-green-300 dark:bg-green-600' : status === 'rejected' ? 'bg-red-400 dark:bg-red-600' : status === 'canceled' ? 'bg-orange-500' : status === 'in review' ? 'bg-gray-500' : 'bg-gray-500';
     let variant = trip.max_travelers ? 'group' : 'solo';
 
     let [checkedIn, setCheckedIn] = useState(trip.checkedIn);
@@ -20,7 +20,7 @@ export const Trip = ({trip, refreshData}) => {
     let [capacityColor, setCapacityColor] = useState('bg-green-300 dark:bg-green-600');
 
     useEffect(() => {
-        if (capacity === currentTravelers) setCapacityColor('bg-red-500');
+        if (capacity === currentTravelers) setCapacityColor('bg-red-400 dark:bg-red-600');
         else setCapacityColor('bg-green-300 dark:bg-green-600');
     }, [currentTravelers]);
 
@@ -83,14 +83,14 @@ export const Trip = ({trip, refreshData}) => {
                     </div> :
                     <div className={`trip-status text-black dark:text-white ${capacityColor}`}>
                         {/*<p className="text-md">{`${currentTravelers}/${capacity}`}</p>*/}
-                        <p className="text-md"> Min: {trip.min_travelers} Max: {trip.max_travelers} </p>
+                        <p className="text-md">{trip.min_travelers}-{trip.max_travelers} people</p>
                     </div>
             }
 
             <div className="trip-type bg-sky-600 text-white">
                 <p className="text-md">{variant === 'solo' ? 'Solo Trip' : 'Group Tour'}</p>
             </div>
-            <img src="https://picsum.photos/200"/>
+            <img src={trip.picture_url ? trip.picture_url : "https://picsum.photos/200"}/>
             <h2> {title} </h2>
             <p className="text-lg m-2"> {description} </p>
             <div className="flex justify-center">
@@ -101,7 +101,7 @@ export const Trip = ({trip, refreshData}) => {
                     className="flex justify-center trip-transport bg-gray-500 border-solid border-2 border-gray-500 rounded-lg text-white">
                     {
                         transport.map((t) => {
-                            return <p className="transport-item"> {t} </p>;
+                            return <p key={t} className="transport-item"> {t} </p>;
                         })
                     }
                 </div>
