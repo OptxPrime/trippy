@@ -6,11 +6,13 @@ import {Navbar} from "../../components/Navbar/Navbar";
 import {SoloTripModal} from "../../components/Modals/SoloTripModal/SoloTripModal";
 import useToken from "../../hooks/useToken";
 import {GroupTourModal} from "../../components/Modals/GruopTourModal/GroupTourModal";
+import {SearchInput} from "../../components/SearchInput/SearchInput";
 
 
 export const FutureTrips = () => {
 
     const [trips, setTrips] = useState([]);
+    const [allTrips, setAllTrips] = useState([]);
     const [error, setError] = useState('');
     const [toggleFetch, setToggleFetch] = useState(false);
 
@@ -18,6 +20,22 @@ export const FutureTrips = () => {
 
     const refreshData = () => {
         setToggleFetch(prevState => !prevState);
+    }
+
+    const handleSearch = (query) => {
+        if (!query) {
+            setTrips(allTrips);
+            return;
+        }
+        let newTrips = allTrips.filter((trip) => {
+            return (
+                (trip.title + trip.description) // // search in title and description
+                    .toString()
+                    .toLowerCase()
+                    .indexOf(query.toLowerCase()) > -1
+            );
+        });
+        setTrips(newTrips);
     }
 
     const fetchTrips = async () => {
@@ -66,6 +84,7 @@ export const FutureTrips = () => {
                     tripsFields.push(o);
                 }
                 setTrips(tripsFields);
+                setAllTrips(tripsFields);
             })
             .catch((err) => {
                 console.log(err);
@@ -81,12 +100,12 @@ export const FutureTrips = () => {
                     <SoloTripModal refreshData={refreshData}/>
                     : <GroupTourModal refreshData={refreshData}/>
             }
-
+            <SearchInput handleSearch={handleSearch}/>
             {error ? <p className="text-red-700 m-2"> {error} </p> :
                 trips && trips.length ?
                     trips.map((trip) => {
                         return <Trip key={`${trip.id}_${trip.datetime}`} trip={trip} refreshData={refreshData}/>
-                    }) : <h2> No past trips </h2>
+                    }) : <h2> No future trips </h2>
             }
         </>
     );

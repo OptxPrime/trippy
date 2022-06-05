@@ -3,12 +3,14 @@ import axios from "axios";
 
 import {Trip} from "../../components/Trip/Trip";
 import {Navbar} from "../../components/Navbar/Navbar";
+import {SearchInput} from "../../components/SearchInput/SearchInput";
 import useToken from "../../hooks/useToken";
 
 
 export const MyTrips = () => {
 
     const [trips, setTrips] = useState([]);
+    const [allTrips, setAllTrips] = useState([]);
     const [error, setError] = useState('');
     const {token} = useToken();
 
@@ -22,6 +24,22 @@ export const MyTrips = () => {
         return response;
     }
 
+    const handleSearch = (query) => {
+        if (!query) {
+            setTrips(allTrips);
+            return;
+        }
+        let newTrips = allTrips.filter((trip) => {
+            return (
+                (trip.title + trip.description) // // search in title and description
+                    .toString()
+                    .toLowerCase()
+                    .indexOf(query.toLowerCase()) > -1
+            );
+        });
+        setTrips(newTrips);
+    }
+
     useEffect(() => {
         fetchTrips()
             .then((response) => {
@@ -31,6 +49,7 @@ export const MyTrips = () => {
                     tripsFields.push(t.fields);
                 }
                 setTrips(tripsFields);
+                setAllTrips(tripsFields);
             })
             .catch((err) => {
                 console.log(err);
@@ -41,6 +60,7 @@ export const MyTrips = () => {
     return (
         <>
             <Navbar/>
+            <SearchInput handleSearch={handleSearch}/>
             {error ? <p className="text-red-700 m-2"> {error} </p> :
                 trips && trips.length ?
                     trips.map((trip) => {
