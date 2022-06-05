@@ -78,7 +78,7 @@ export const FutureTrips = () => {
                 let trips = JSON.parse(response.data);
                 let tripsFields = [];
                 for (let t of trips) {
-                    let o = {trip_id: t.pk, ...t.fields};
+                    let o = {id: t.pk, ...t.fields};
                     if (getUserType() == 'traveler' && o.max_travelers) // Registrations are relevant only for traveler. Max_travelers is indicator of GroupTour.
                         o.is_registered = registeredTripIds.has(t.pk); // if current trip is among those for which user registered
                     tripsFields.push(o);

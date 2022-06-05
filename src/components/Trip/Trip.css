@@ -42,3 +42,12 @@
 .accept-reject-button {
     flex: 1;
 }
+
+.pdf-button {
+    border: solid;
+    border-radius: 20%;
+}
+
+.pdf-text {
+    display: inline-block;
+}

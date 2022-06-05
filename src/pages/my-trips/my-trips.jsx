@@ -46,7 +46,7 @@ export const MyTrips = () => {
                 let trips = JSON.parse(response.data);
                 let tripsFields = [];
                 for (let t of trips) {
-                    tripsFields.push(t.fields);
+                    tripsFields.push({id: t.pk, ...t.fields});
                 }
                 setTrips(tripsFields);
                 setAllTrips(tripsFields);

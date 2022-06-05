@@ -2,13 +2,13 @@ import './Trip.css'
 import {useEffect, useState} from "react";
 import useToken from "../../hooks/useToken";
 import axios from "axios";
+var fileDownload = require('js-file-download');
 
 export const Trip = ({trip, refreshData}) => {
     const {token, getUserType} = useToken();
     let {
-        status, title, description, trip_id, is_registered
+        status, title, description, id: trip_id, is_registered
     } = trip
-
     let date = new Date(trip.datetime);
     let transport = trip.transport.split(',');
     let capacity = trip.max_travelers ? trip.max_travelers : 1;
@@ -23,6 +23,17 @@ export const Trip = ({trip, refreshData}) => {
         if (capacity === currentTravelers) setCapacityColor('bg-red-400 dark:bg-red-600');
         else setCapacityColor('bg-green-300 dark:bg-green-600');
     }, [currentTravelers]);
+
+    const handlePDFDownload = () => {
+        axios.get(`${process.env.REACT_APP_API_URL}/generate-trip-pdf?trip_type=${variant}&trip_id=${trip_id}`, {
+            responseType: 'blob',
+        }).then(res => {
+            fileDownload(res.data, `${title}.pdf`);
+        }).catch(err => {
+            console.log(err);
+            alert("Error in downloading PDF");
+        })
+    }
 
     const handleCheck = async (action) => {
         // To do: add axios call to add/remove traveler to trip. If success, then:
@@ -155,6 +166,12 @@ export const Trip = ({trip, refreshData}) => {
                         Delete
                     </button> : null
             }
+            <button>
+                <p className="text-sm m-2 pdf-text text-white bg-black p-1 rounded-md"
+                   onClick={handlePDFDownload}>
+                    Download as PDF
+                </p>
+            </button>
         </div>
     );
 }
