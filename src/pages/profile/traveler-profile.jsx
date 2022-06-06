@@ -4,7 +4,8 @@ import {ErrorMessage, Field, Form, Formik} from "formik";
 import {useEffect, useState} from "react";
 import useToken from "../../hooks/useToken";
 
-let traveler;
+import './profile.css'
+
 
 const fetchUserData = async (token) => {
     const response = await axios.get(`${process.env.REACT_APP_API_URL}/get_user`,
@@ -19,16 +20,18 @@ const fetchUserData = async (token) => {
 export const TravelerProfile = () => {
 
     const [error, setError] = useState('');
-    const navigate = useNavigate();
-    const {token} = useToken()
-
+    const [traveler, setTraveler] = useState();
     const [loading, setLoading] = useState(true);
+
+    const navigate = useNavigate();
+    const {token} = useToken();
 
     useEffect(() => {
         fetchUserData(token)
             .then((response) => {
-                traveler = response.data[0];
-                setLoading(false)
+                let t = response.data[0];
+                setTraveler(t);
+                setLoading(false);
             })
             .catch((err) => {
                 console.log(err);
@@ -39,6 +42,19 @@ export const TravelerProfile = () => {
     return (
         loading ? <div>Loading...</div> :
             <>
+                <img className="logo"
+                     src={traveler?.profile_pic ? `${process.env.REACT_APP_API_URL}/media/${traveler?.profile_pic}` : "https://picsum.photos/300"}
+                />
+                <form className="logo-form" encType="multipart/form-data" method="POST"
+                      action={`${process.env.REACT_APP_API_URL}/upload-avatar`}>
+                    <input className="file-input" type="file" name="slika" required/>
+                    <input name="token" style={{display: 'none'}} type="text" value={token} readOnly/>
+                    <button
+                        className="logo-button w3-btn w3-round-large bg-sky-300 dark:bg-sky-600 text-black dark:text-white"
+                        type="submit"> Submit new avatar
+                    </button>
+                </form>
+
                 <Formik
                     initialValues={
                         traveler

@@ -4,6 +4,8 @@ import {ErrorMessage, Field, Form, Formik} from "formik";
 import {useEffect, useState} from "react";
 import useToken from "../../hooks/useToken";
 
+import './profile.css'
+
 let agency;
 
 const fetchUserData = async (token) => {
@@ -19,16 +21,19 @@ const fetchUserData = async (token) => {
 export const AgencyProfile = () => {
 
     const [error, setError] = useState('');
+    const [agency, setAgency] = useState();
+    const [loading, setLoading] = useState(true);
+
     const navigate = useNavigate();
     const {token} = useToken()
 
-    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         fetchUserData(token)
             .then((response) => {
-                agency = response.data[0];
-                agency.establishment_date = agency.establishment_date.substring(0, 10); // slice because of different format coming from Django server
+                let a = response.data[0];
+                a.establishment_date = a.establishment_date.substring(0, 10); // slice because of different format coming from Django server
+                setAgency(a)
                 setLoading(false)
             })
             .catch((err) => {
@@ -40,6 +45,19 @@ export const AgencyProfile = () => {
     return (
         loading ? <div>Loading...</div> :
             <>
+                <img className="logo"
+                     src={agency?.logo ? `${process.env.REACT_APP_API_URL}/media/${agency?.logo}` : "https://picsum.photos/300"}
+                />
+                <form className="logo-form" encType="multipart/form-data" method="POST"
+                      action={`${process.env.REACT_APP_API_URL}/upload-avatar`}>
+                    <input className="file-input" type="file" name="slika" required/>
+                    <input name="token" style={{display: 'none'}} type="text" value={token} readOnly/>
+                    <button
+                        className="logo-button w3-btn w3-round-large bg-sky-300 dark:bg-sky-600 text-black dark:text-white"
+                        type="submit"> Submit new avatar
+                    </button>
+                </form>
+
                 <Formik
                     initialValues={
                         agency
@@ -62,7 +80,6 @@ export const AgencyProfile = () => {
                                 }
                             })
                             .then((response) => {
-                                console.log(response.data);
                                 alert("Successfully updated profile info");
                                 navigate('/profile');
                             })

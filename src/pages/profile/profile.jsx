@@ -6,13 +6,12 @@ import {Navbar} from "../../components/Navbar/Navbar";
 export const Profile = () => {
 
     const {getUserType} = useToken();
-    const userType = getUserType();
 
     return (
         <>
             <Navbar/>
             {
-                userType === 'agency' ? <AgencyProfile/> : <TravelerProfile/>
+                getUserType() === 'agency' ? <AgencyProfile/> : <TravelerProfile/>
             }
         </>
     );

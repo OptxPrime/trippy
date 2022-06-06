@@ -1,0 +1,21 @@
+.logo {
+    margin-top: 1em;
+    clip-path: circle();
+    max-width: 400px;
+}
+
+.logo-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.file-input {
+    display: inline-block;
+    margin-left: 20%;
+}
+
+.logo-button {
+    justify-self: center;
+    margin: 0 auto;
+    margin-top: 1em;
+}
