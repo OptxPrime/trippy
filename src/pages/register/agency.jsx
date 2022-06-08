@@ -10,6 +10,11 @@ export const RegisterAgency = () => {
 
     return (
         <>
+            <head>
+                <base href="/"></base>
+                {/* weird bug: https://stackoverflow.com/questions/42773306/react-router-doesnt-load-images-properly-with-nested-routes */}
+            </head>
+            <img src="app-logo.png" style={{margin: '0 auto', maxWidth: '300px'}}/>
             <Formik
                 initialValues={
                     {

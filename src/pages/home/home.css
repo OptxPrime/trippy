@@ -1,7 +1,13 @@
 .map-container {
     margin: 2em;
+    /*margin-bottom: 5em;*/
 }
 
-.instructions {
+.map-instructions {
     margin-top: 2em;
+    margin-bottom: 5em;
+}
+
+.instructions-marker-image {
+    display: inline-block;
 }

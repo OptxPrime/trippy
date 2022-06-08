@@ -10,9 +10,9 @@ export const MapDropdown = ({options, trips}) => {
     const map = useMap(); // important: https://stackoverflow.com/questions/65171337/how-to-get-map-properties-and-handle-events-in-leaflet-v3-with-react-redux
 
     const handleChange = (e) => {
-    trips.map(({id,city})=>{
-        if(id===e.value){
-            map.flyTo([city.lat, city.lng], 12);
+    trips.map(({id, lat, lng}) => {
+        if (id === e.value) {
+            map.flyTo([lat, lng], 12);
         }
     });
     }

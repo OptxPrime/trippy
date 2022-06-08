@@ -2,8 +2,32 @@
     margin-left: 1em;
     margin-right: 1em;
     align-self: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.app-logo {
+    max-width: 200px;
 }
 
 a {
     cursor: pointer;
+}
+
+.profile-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.avatar {
+    clip-path: circle();
+    max-width: 50px;
+    display: inline-block;
+}
+
+.avatar-username {
+    display: inline-block;
+    font-weight: bold;
 }

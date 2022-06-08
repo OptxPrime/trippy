@@ -14,6 +14,7 @@ export const ResetPassword = () => {
 
     return (
         <>
+            <img src="app-logo.png" style={{margin: '0 auto'}}/>
             <Formik
                 initialValues={{email: '', old_password: '', new_password: ''}}
                 validate={values => {

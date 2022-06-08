@@ -16,55 +16,61 @@ export const LoginTraveler = () => {
 
     return (
     <>
-    <Formik
-       initialValues={{ email: '', password: '' }}
-       validate={values => {
-         const errors = {};
-         if (!values.email) {
-           errors.email = 'Required';
-         } else if (
-           !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-         ) {
-           errors.email = 'Invalid email address';
-         }
-         if(!values.password) {
-             errors.password = 'Required'
-         }
-         return errors;
-       }}
-       onSubmit={({email,password}, { setSubmitting }) => {
-            axios.post(`${process.env.REACT_APP_API_URL}/login/traveler`,
-            {
-                email,
-                password
-            })
-            .then((response) => {
-                setToken('traveler',response.data); //response.data is user id in this case
-                navigate('/home');
-            })
-            .catch((error) =>{
-                setError(error)
-            })
-            .finally(()=>{
-                setSubmitting(false);
-            });
-       }}
-     >
-       {({ isSubmitting }) => (
-           <Form className="form-container w3-container bg-sky-200 dark:bg-sky-600">
-               <label className="text-black dark:text-white"><b>Email</b></label>
-               <Field className="text-black" type="email" name="email"/>
-               <ErrorMessage className="text-red-700" name="email" component="div"/>
+        <head>
+            <base href="/"></base>
+            {/* weird bug: https://stackoverflow.com/questions/42773306/react-router-doesnt-load-images-properly-with-nested-routes */}
+        </head>
+        <img src="app-logo.png" className="app-logo-pic"/>
 
-               <label className="text-black dark:text-white"><b>Password</b></label>
-               <Field className="text-black" type="password" name="password"/>
-               <ErrorMessage className="text-red-700" name="password" component="div"/>
+        <Formik
+            initialValues={{email: '', password: ''}}
+            validate={values => {
+                const errors = {};
+                if (!values.email) {
+                    errors.email = 'Required';
+                } else if (
+                    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+                ) {
+                    errors.email = 'Invalid email address';
+                }
+                if (!values.password) {
+                    errors.password = 'Required'
+                }
+                return errors;
+            }}
+            onSubmit={({email, password}, {setSubmitting}) => {
+                axios.post(`${process.env.REACT_APP_API_URL}/login/traveler`,
+                    {
+                        email,
+                        password
+                    })
+                    .then((response) => {
+                        setToken('traveler', response.data); //response.data is user id in this case
+                        navigate('/home');
+                    })
+                    .catch((error) => {
+                        setError(error)
+                    })
+                    .finally(() => {
+                        setSubmitting(false);
+                    });
+            }}
+        >
+            {({isSubmitting}) => (
+                <Form className="form-container w3-container bg-sky-200 dark:bg-sky-600">
+                    <label className="text-black dark:text-white"><b>Email</b></label>
+                    <Field className="text-black" type="email" name="email"/>
+                    <ErrorMessage className="text-red-700" name="email" component="div"/>
 
-               <button type="submit" className="w3-btn w3-round-large w3-margin w3-black" disabled={isSubmitting}>
-                   Login
-               </button>
-           </Form>
-       )}
+                    <label className="text-black dark:text-white"><b>Password</b></label>
+                    <Field className="text-black" type="password" name="password"/>
+                    <ErrorMessage className="text-red-700" name="password" component="div"/>
+
+                    <button type="submit" className="w3-btn w3-round-large w3-margin w3-black" disabled={isSubmitting}>
+                        Login
+                    </button>
+                </Form>
+            )}
     </Formik>
         {error ? <p className="text-red-700 m-1"> Email and password combo incorrect </p> : null}
 

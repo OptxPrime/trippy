@@ -16,6 +16,11 @@ export const LoginAgency = () => {
 
     return (
         <>
+            <head>
+                <base href="/"></base>
+                {/* weird bug: https://stackoverflow.com/questions/42773306/react-router-doesnt-load-images-properly-with-nested-routes */}
+            </head>
+            <img src="app-logo.png" className="app-logo-pic"/>
             <Formik
                 initialValues={{email: '', password: ''}}
                 validate={values => {

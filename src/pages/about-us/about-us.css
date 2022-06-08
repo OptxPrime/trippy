@@ -1,5 +1,6 @@
 .info-container{
     width: 40%;
+    min-width: 360px;
 }
 
 h2{
